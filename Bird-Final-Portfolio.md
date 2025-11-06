@@ -1,0 +1,50 @@
+Homework 10
+================
+Roman Matthew Bird
+2025-11-06
+
+Question: Do areas of low air quality have higher rates of lung
+diseases?
+
+Hypothesis: We expect areas with lower air quality on average to have
+higher rates of lung disease and lung-related mortality.
+
+Possible Test Statistic: Scatterplot (Air Quality vs Prevalence of Lung
+Disease)
+
+install.packages(c(“tidyverse”, “viridis”))
+
+``` r
+# Install (only needed once per project)
+# install.packages(c("tidyverse", "viridis"))
+
+# Load libraries
+library(tidyverse)
+library(viridis)
+
+# Read in the data
+copd <- read_csv("state_gender_data.csv")
+
+# Remove the national total
+copd <- copd %>% filter(State != "United States")
+
+# Create scatterplot: Female vs. Male COPD prevalence
+ggplot(copd, aes(x = Male_Percent, y = Female_Percent, 
+                 size = Total_Percent, color = Total_Percent, label = State)) +
+  geom_point(alpha = 0.8) +
+  geom_text(aes(label = State), hjust = 1.2, vjust = 0.5, size = 3, check_overlap = TRUE) +
+  scale_color_viridis(name = "Total COPD (%)", option = "C", direction = -1) +
+  scale_size_continuous(name = "Total COPD (%)") +
+  labs(
+    title = "COPD Prevalence by State: Male vs. Female (2021)",
+    x = "Male COPD Prevalence (%)",
+    y = "Female COPD Prevalence (%)"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(size = 14, face = "bold", hjust = 0.5),
+    legend.position = "right"
+  )
+```
+
+![](Bird-Final-Portfolio_files/figure-gfm/scatterplot-1.png)<!-- -->
